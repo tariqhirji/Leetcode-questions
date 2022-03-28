@@ -1,23 +1,25 @@
-// Since the input array is sorted, this solution can make use of the 2-pointers pattern
-// Loop starts at end and works back to first index as the input array works towards the middle (smallest squared value)
+// Since array is sorted, can utilize 2-pointer approach
+// Smallest squared value would be near middle, largest would be on outsides
+// Start at outsides and work in to middle, while adding to end of new array
 class Solution {
     public int[] sortedSquares(int[] nums) {
-        int leftIndex = 0;
-        int rightIndex = nums.length - 1; 
-        int[] squaredArray = new int[nums.length];
-            
-        // loop starts at end and works backwords since left squared or right squared will be max value
-        for (int i = squaredArray.length; i >= 0; i--) {
-            // If left index abs value is greater than right, square left and move leftIndex up
-            if (Math.abs(nums[leftIndex]) > nums[rightIndex]) {
-                squaredArray[i] = nums[leftIndex] * nums[leftIndex];
-                leftIndex++;
-            // If right index value is greater than abs left, square right and move rightIndex down
+        int start = 0;
+        int end = nums.length - 1;
+        int[] result = new int[nums.length];
+        int temp = nums.length - 1;
+        
+        while (start <= end) {
+            int squared = 0;
+            if (Math.abs(nums[start]) > Math.abs(nums[end])) {
+                squared = nums[start] * nums[start];
+                start++;
             } else {
-                squaredArray[i] = nums[rightIndex] * nums[rightIndex];
-                rightIndex--;
+                squared = nums[end] * nums[end];
+                end--;
             }
+            // Decrement temp while also assigning it squared value
+            result[temp--] = squared;
         }
-        return squaredArray;
+        return result;
     }
 }
